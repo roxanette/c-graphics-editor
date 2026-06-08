@@ -5,9 +5,16 @@
 
 char canvas[HEIGHT][WIDTH];
 
+/* Function Prototypes */
+void clearCanvas();
+void displayCanvas();
+void drawRectangle();
+void drawLine();
+
 void clearCanvas()
 {
     int i, j;
+
     for(i = 0; i < HEIGHT; i++)
     {
         for(j = 0; j < WIDTH; j++)
@@ -20,6 +27,7 @@ void clearCanvas()
 void displayCanvas()
 {
     int i, j;
+
     for(i = 0; i < HEIGHT; i++)
     {
         for(j = 0; j < WIDTH; j++)
@@ -35,7 +43,7 @@ void drawRectangle()
     int x, y, w, h, i;
 
     printf("Enter x y width height: ");
-    scanf("%d%d%d%d", &x, &y, &w, &h);
+    scanf("%d %d %d %d", &x, &y, &w, &h);
 
     for(i = x; i < x + w; i++)
     {
@@ -50,6 +58,33 @@ void drawRectangle()
     }
 }
 
+void drawLine()
+{
+    int x1, y1, x2, y2, i;
+
+    printf("Enter x1 y1 x2 y2: ");
+    scanf("%d %d %d %d", &x1, &y1, &x2, &y2);
+
+    if(y1 == y2)
+    {
+        for(i = x1; i <= x2; i++)
+        {
+            canvas[y1][i] = '*';
+        }
+    }
+    else if(x1 == x2)
+    {
+        for(i = y1; i <= y2; i++)
+        {
+            canvas[i][x1] = '*';
+        }
+    }
+    else
+    {
+        printf("Only horizontal and vertical lines supported.\n");
+    }
+}
+
 int main()
 {
     int choice;
@@ -59,24 +94,35 @@ int main()
     while(1)
     {
         printf("\n===== GRAPHICS EDITOR =====\n");
-        printf("1. Display Picture\n");
+        printf("1. Draw Rectangle\n");
+        printf("2. Draw Line\n");
+        printf("3. Display Picture\n");
         printf("0. Exit\n");
 
         printf("Enter choice: ");
         scanf("%d", &choice);
 
-        switch(choice)
-        {
-            case 1:
-                displayCanvas();
-                break;
+        switch(choice){
+        case 1:
+        drawRectangle();
+        break;
 
-            case 0:
-                return 0;
+        case 2:
+        drawLine();
+        break;
 
-            default:
-                printf("Invalid choice!\n");
+        case 3:
+        displayCanvas();
+        break;
+
+        case 0:
+        return 0;
+
+        default:
+        printf("Invalid choice!\n");
         }
     }
+
+    return 0;
 }
 
