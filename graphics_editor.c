@@ -30,9 +30,53 @@ void displayCanvas()
     }
 }
 
+void drawRectangle()
+{
+    int x, y, w, h, i;
+
+    printf("Enter x y width height: ");
+    scanf("%d%d%d%d", &x, &y, &w, &h);
+
+    for(i = x; i < x + w; i++)
+    {
+        canvas[y][i] = '*';
+        canvas[y + h - 1][i] = '*';
+    }
+
+    for(i = y; i < y + h; i++)
+    {
+        canvas[i][x] = '*';
+        canvas[i][x + w - 1] = '*';
+    }
+}
+
 int main()
 {
+    int choice;
+
     clearCanvas();
-    displayCanvas();
-    return 0;
+
+    while(1)
+    {
+        printf("\n===== GRAPHICS EDITOR =====\n");
+        printf("1. Display Picture\n");
+        printf("0. Exit\n");
+
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                displayCanvas();
+                break;
+
+            case 0:
+                return 0;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
 }
+
