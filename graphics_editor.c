@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 #define HEIGHT 30
@@ -83,37 +84,43 @@ void renderRectangle(Shape s)
 
 void renderLine(Shape s)
 {
-    int i;
+    int x1 = s.x1;
+    int y1 = s.y1;
+    int x2 = s.x2;
+    int y2 = s.y2;
 
-    if(s.y1 == s.y2)
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
+
+    int sx = (x1 < x2) ? 1 : -1;
+    int sy = (y1 < y2) ? 1 : -1;
+
+    int err = dx - dy;
+
+    while(1)
     {
-        int start=s.x1;
-        int end=s.x2;
-
-        if(start>end)
+        if(x1 >= 0 && x1 < WIDTH &&
+           y1 >= 0 && y1 < HEIGHT)
         {
-            int t=start;
-            start=end;
-            end=t;
+            canvas[y1][x1] = '*';
         }
 
-        for(i=start;i<=end;i++)
-            canvas[s.y1][i]='*';
-    }
-    else if(s.x1 == s.x2)
-    {
-        int start=s.y1;
-        int end=s.y2;
+        if(x1 == x2 && y1 == y2)
+            break;
 
-        if(start>end)
+        int e2 = 2 * err;
+
+        if(e2 > -dy)
         {
-            int t=start;
-            start=end;
-            end=t;
+            err -= dy;
+            x1 += sx;
         }
 
-        for(i=start;i<=end;i++)
-            canvas[i][s.x1]='*';
+        if(e2 < dx)
+        {
+            err += dx;
+            y1 += sy;
+        }
     }
 }
 
